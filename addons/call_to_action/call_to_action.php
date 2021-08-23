@@ -102,6 +102,35 @@ class WPPB_CE_Addon_CallToAction {
                 'title' => __( 'Title', 'wp-pagebuilder' ),
                 'std' => 'This is content',
             ),
+
+            'cta_top_background' => array(
+                'type' => 'color2',
+                'title' => 'background',
+                'clip' => false,
+                'std' => array(
+                    'colorType' => 'color',
+                    'colorColor' => '#0080FE',
+                    'clip' => false,
+                ),
+                'selector' => '{{SELECTOR}} .wppb-cta-top-content',
+                'tab' => 'style',
+                'section' => 'CTA Content',
+            ),
+
+            'cta_bottom_background' => array(
+                'type' => 'color2',
+                'title' => 'background',
+                'clip' => false,
+                'std' => array(
+                    'colorType' => 'color',
+                    'colorColor' => '#0080FE',
+                    'clip' => false,
+                ),
+                'selector' => '{{SELECTOR}} .wppb-cta-bottom-content',
+                'tab' => 'style',
+                'section' => 'CTA Bottom Content',
+            ),
+
             'cta_background' => array(
                 'type' => 'color2',
                 'title' => __( 'CTA Background', 'wp-pagebuilder' ),
