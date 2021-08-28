@@ -2,7 +2,7 @@
 .wppb-builder-addons .wppb-builder-addon {
     position: relative;
   }
-  .wppb-image-text-block-addon {
+  .wppb-text-block-addon {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
