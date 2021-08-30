@@ -68,9 +68,47 @@ class WPPB_Addon_Text_Image_Block {
 				'std' => array(
 					'colorType' => 'color',
 					'colorColor' => '#ffffff',
-					'clip' => false
+					'clip' => true
 				),
 				'selector' => '{{SELECTOR}} .wppb-image-text-block-addon',
+			),
+			'text_image_opacity_distance' => array(
+				'type' => 'number',
+				'title' => __('Image Opacity Distance', 'wp-pagebuilder'),
+				'std' => '20',
+			),
+			'text_image_bg_repeat' => array(
+				'type' => 'select',
+				'title' => 'Background Repeat',
+				'values' => array(
+					'no-repeat' => 'No Repeat',
+					'repeat' => 'Repeat',
+				),
+				'std' => 'no-repeat',
+				'selector' => '{{SELECTOR}} .wppb-image-block-left, {{SELECTOR}} .wppb-image-block-right {background-repeat: {{data.text_image_bg_repeat}}}',
+			),
+			'text_image_bg_size' => array(
+				'type' => 'select',
+				'title' => 'Background Size',
+				'values' => array(
+					'contain' => 'Contain',
+					'cover' => 'Cover',
+				),
+				'std' => 'cover',
+				'selector' => '{{SELECTOR}} .wppb-image-block-left, {{SELECTOR}} .wppb-image-block-right {background-size: {{data.text_image_bg_size}}}',
+			),
+			'text_image_bg_position' => array(
+				'type' => 'select',
+				'title' => 'Background Position',
+				'values' => array(
+					'center' => 'Center',
+					'top' => 'Top',
+					'bottom' => 'Bottom',
+					'left' => 'Left',
+					'right' => 'Right',
+				),
+				'std' => 'center',
+				'selector' => '{{SELECTOR}} .wppb-image-block-left, {{SELECTOR}} .wppb-image-block-right {background-position: {{data.text_image_bg_position}}}',
 			),
 			'text_image_selector' => array(
 				'type' => 'select',
@@ -182,15 +220,15 @@ class WPPB_Addon_Text_Image_Block {
 		$image_spacing_right = isset($settings['image_spacing_right']) ? $settings['image_spacing_right'] : '20';
 		$image_spacing_left = isset($settings['image_spacing_left']) ? $settings['image_spacing_left'] : '20';
 		$image_upload 	= isset($settings['image_upload']) ? $settings['image_upload'] : array();
+		$text_image_bg 	= isset($settings['text_image_bg']) ? $settings['text_image_bg'] : '#ffffff';
+		$text_image_opacity_distance 	= isset($settings['text_image_opacity_distance']) ? $settings['text_image_opacity_distance'] : '#ffffff';
 		$text_image_selector 	= isset($settings["text_image_selector"]) ? $settings["text_image_selector"] : '';
 		$img_url 		= $image_upload['url'];
 
 		$output = '';
 		$output  .= '<div class="wppb-image-text-block-addon">';
 		if (!empty($image_upload['url']) && $image_position == 'left') {
-			$output .= '<div class="wppb-image-block-left">';
-			$output .= '<img src="' . esc_url($img_url) . '" alt="' . esc_attr($image_title) . '">';
-			$output .= '</div>';
+			$output .= '<div class="wppb-image-block-left" style="background-image: linear-gradient(to left, ' . $text_image_bg['colorColor'] . ' 0%, rgba(0,0,0,0) ' . $text_image_opacity_distance . 'px,  rgba(0,0,0,0) 100%), url(' . esc_url($img_url) . ')"></div>';
 		}
 		if ($image_title) {
 			$output .= '<div class="wppb-text-block-content">';
@@ -207,9 +245,7 @@ class WPPB_Addon_Text_Image_Block {
 			$output .= '</div>';
 		}
 		if (!empty($image_upload['url']) && $image_position == 'right') {
-			$output .= '<div class="wppb-image-block-right">';
-			$output .= '<img src="' . esc_url($img_url) . '" alt="' . esc_attr($image_title) . '">';
-			$output .= '</div>';
+			$output .= '<div class="wppb-image-block-right" style="background-image: linear-gradient(to right, ' . $text_image_bg['colorColor'] . ' 0%, rgba(0,0,0,0) ' . $text_image_opacity_distance . 'px,  rgba(0,0,0,0) 100%), url(' . esc_url($img_url) . ')"></div>';
 		}
 		$output .= '</div>';
 
@@ -223,13 +259,15 @@ class WPPB_Addon_Text_Image_Block {
 		var image_upload = data.image_upload??"";
 		var image_position = data.image_position??"";
 		var image_title = data.image_title??"";
+		var text_image_opacity_distance = data.text_image_opacity_distance??"20";
 		var text_image_selector = data.text_image_selector ? data.text_image_selector : "h3";
 		#>
 		<# if(data.text){ #>
 			<div class="wppb-image-text-block-addon">
 				<# if(image_position=="left" && image_upload) { #>
-					<div class="wppb-image-block-left"><img src="{{image_upload.url}}" alt="{{image_title}}"></div>
+					<div class="wppb-image-block-left" style="background-image: linear-gradient(to left, {{data.text_image_bg.colorColor}} 0%, rgba(0,0,0,0) {{text_image_opacity_distance}}px,  rgba(0,0,0,0) 100%), url({{image_upload.url}})"></div>
 				<# } #>
+
 				<# if(data.image_title || data.text) { #>
 					<div class="wppb-text-block-content">
 				<# } #>
@@ -248,7 +286,7 @@ class WPPB_Addon_Text_Image_Block {
 					</div>
 				<# } #>
 				<# if(image_position=="right" && image_upload) { #>
-					<div class="wppb-image-block-right"><img src="{{image_upload.url}}" alt="{{image_title}}"></div>
+					<div class="wppb-image-block-right" style="background-image: linear-gradient(to right, {{data.text_image_bg.colorColor}} 0%, rgba(0,0,0,0) {{text_image_opacity_distance}}px,  rgba(0,0,0,0) 100%), url({{image_upload.url}})"></div>
 				<# } #>
 			</div>
 		<# } #> ';

@@ -42,12 +42,15 @@ class WPPB_Addon_Tile_card {
 					'colorColor' => '#ffffff',
 					'clip' => false
 				),
+				'tab' => 'style',
 				'selector' => '{{SELECTOR}} .wppb-tile-card-addon',
 			),
 			'tile_card_title' => array(
 				'type' => 'text',
 				'title' => 'Card Title text',
 				'std' => 'Tile Card Addon',
+				'tab' => 'style',
+				'section' => 'Card Title',
 			),
 			'tile_card_selector' => array(
 				'type' => 'select',
@@ -69,6 +72,8 @@ class WPPB_Addon_Tile_card {
 				'clip' => true,
 				'std' => array('colorType' => 'color', 'clip' => true, 'colorColor' => ''),
 				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title .wppb-tile-card-heading',
+				'tab' => 'style',
+				'section' => 'Card Title',
 			),
 			'tile_title_bg' => array(
 				'type' => 'color2',
@@ -80,6 +85,8 @@ class WPPB_Addon_Tile_card {
 					'clip' => false
 				),
 				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title',
+				'tab' => 'style',
+				'section' => 'Card Title',
 			),
 			'tile_card_padding' => array(
 				'type' => 'dimension',
@@ -87,12 +94,16 @@ class WPPB_Addon_Tile_card {
 				'unit' => array('px', 'em', '%'),
 				'responsive' => true,
 				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title { padding: {{data.tile_card_padding}}; }',
+				'tab' => 'style',
+				'section' => 'Card Title',
 			),
 			'tile_title_align' => array(
 				'type' => 'alignment',
 				'title' => __('Card Title Alignment', 'wp-pagebuilder'),
 				'responsive' => true,
-				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title { text-align: {{data.tile_title_align}}; }'
+				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title { text-align: {{data.tile_title_align}}; }',
+				'tab' => 'style',
+				'section' => 'Card Title',
 			),
 			'link' => array(
 				'type' => 'switch',
@@ -104,16 +115,6 @@ class WPPB_Addon_Tile_card {
 				'title' => __('Link', 'wp-pagebuilder'),
 				'std' =>   array('link' => '', 'window' => true, 'nofolow' => false),
 				'depends' => array(array('link', '!=', '0')),
-			),
-			'image_display' => array(
-				'type' => 'select',
-				'title' => __('Card Image display', 'wp-pagebuilder'),
-				'values' => array(
-					'imgblock' => __('Block', 'wp-pagebuilder'),
-					'imginlineblock' => __('Inline Block', 'wp-pagebuilder'),
-					'imginline' => __('Inline', 'wp-pagebuilder'),
-				),
-				'std' => 'imginlineblock',
 			),
 			'image_align' => array(
 				'type' => 'alignment',
@@ -331,10 +332,13 @@ class WPPB_Addon_Tile_card {
 		$upload_image 	= isset($settings['upload_image']) ? $settings['upload_image'] : array();
 		$tile_card_title = isset($settings['tile_card_title']) ? $settings['tile_card_title'] : '';
 		$image_display  = isset($settings["image_display"]) ? $settings["image_display"] : 'imginlineblock';
+		$image_link  = isset($settings["image_link"]) ? $settings["image_link"] : '';
 		$tile_card_selector 		= isset($settings["tile_card_selector"]) ? $settings["tile_card_selector"] : '';
 
 		$img_url = '';
 		$output = '';
+		$target =  get_wppb_array_value_by_key($image_link, 'window') ? 'target=_blank' : "";
+		$nofolow = get_wppb_array_value_by_key($image_link, 'window') ? 'rel=nofolow' : "";
 
 		if (!empty($upload_image['url'])) {
 			$img_url = $upload_image['url'];
@@ -346,8 +350,13 @@ class WPPB_Addon_Tile_card {
 		$output  .= '<div class="wppb-tile-card-addon-content wppb-' . esc_attr($image_display) . '">';
 		$output  .= '<div class="wppb-tile-card-addon-image">';
 
+		if (get_wppb_array_value_by_key($image_link, 'link')) {
+			$output  .= '<a ' . esc_attr($nofolow) . ' href="' . esc_url(get_wppb_array_value_by_key($image_link, 'link')) . '" ' . esc_attr($target) . '>';
+		}
 		$output  .= '<img class="wppb-tile-card-addon-img" src="' . esc_url($img_url) . '" alt="' . esc_attr($tile_card_title) . '">';
-
+		if (get_wppb_array_value_by_key($image_link, 'link')) {
+			$output .= '</a>';
+		}
 		$output .= '</div>';
 		if ($tile_card_title) {
 			$output .= '<div class="wppb-addon-tile-card-title">';

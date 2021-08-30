@@ -15,6 +15,13 @@
 }
 .wppb-builder-addon img {
   max-width: 100%;
+  width: 100%;
+}
+.wppb-text-block-content,
+.wppb-image-block-right,
+.wppb-image-block-left {
+  width: 50%;
+  min-height: 100px;
 }
 .wppb-video-bg-wrap {
   position: absolute;
