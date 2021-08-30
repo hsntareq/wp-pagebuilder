@@ -34,11 +34,23 @@ class WPPB_Addon_Text_Image_Block {
 				'title' => __('Content', 'wp-pagebuilder'),
 				'std' => 'Integer adipiscing erat eget risus sollicitudin pellentesque et non erat. Maecenas nibh dolor, malesuada et bibendum a, sagittis accumsan ipsum. Pellentesque ultrices ultrices sapien, nec tincidunt nunc posuere ut. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam scelerisque tristique dolor vitae tincidunt. Aenean quis massa uada mi elementum elementum. Nec sapien convallis vulputate rhoncus vel dui.'
 			),
+			'text_image_bgs' => array(
+				'type' => 'color2',
+				'title' => 'Addon background',
+				'clip' => false,
+				'std' => array(
+					'colorType' => 'color',
+					'colorColor' => '#ffffff',
+					'clip' => false
+				),
+				'selector' => '{{SELECTOR}} .wppb-image-text-block-addon',
+				'tab' => 'style',
+			),
 			'text_image_title_color' => array(
 				'type' => 'color2',
 				'title' => 'Title Color',
 				'clip' => true,
-				'std' => array('colorType' => 'color', 'clip' => true, 'colorColor' => ''),
+				'std' => array('colorType' => 'color', 'clip' => true, 'colorColor' => '#000'),
 				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title .wppb-tile-image-heading',
 				'tab' => 'style',
 			),
@@ -46,17 +58,17 @@ class WPPB_Addon_Text_Image_Block {
 				'type' => 'color2',
 				'title' => 'Text Color',
 				'clip' => true,
-				'std' => array('colorType' => 'color', 'clip' => true, 'colorColor' => ''),
+				'std' => array('colorType' => 'color', 'clip' => true, 'colorColor' => '#000'),
 				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-content',
 				'tab' => 'style',
 			),
 			'tile_title_bg' => array(
 				'type' => 'color2',
-				'title' => ' Title Background',
+				'title' => 'Title Background',
 				'clip' => false,
 				'std' => array(
 					'colorType' => 'color',
-					'colorColor' => '#ffffff',
+					'colorColor' => '',
 					'clip' => false
 				),
 				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title',
@@ -76,18 +88,6 @@ class WPPB_Addon_Text_Image_Block {
 				'unit' => array('px', 'em', '%'),
 				'responsive' => true,
 				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-content { padding: {{data.text_padding}}; }',
-				'tab' => 'style',
-			),
-			'text_image_bg' => array(
-				'type' => 'color2',
-				'title' => 'Addon background',
-				'clip' => false,
-				'std' => array(
-					'colorType' => 'color',
-					'colorColor' => '#ffffff',
-					'clip' => true
-				),
-				'selector' => '{{SELECTOR}} .wppb-image-text-block-addon',
 				'tab' => 'style',
 			),
 			'text_image_opacity_distance' => array(
@@ -134,7 +134,7 @@ class WPPB_Addon_Text_Image_Block {
 			),
 			'text_image_selector' => array(
 				'type' => 'select',
-				'title' => __(' Image position', 'wp-pagebuilder'),
+				'title' => __(' Image Selector', 'wp-pagebuilder'),
 				'values' => array(
 					'h2' => 'h2',
 					'h3' => 'h3',
@@ -237,7 +237,7 @@ class WPPB_Addon_Text_Image_Block {
 		$image_spacing_right = isset($settings['image_spacing_right']) ? $settings['image_spacing_right'] : '20';
 		$image_spacing_left = isset($settings['image_spacing_left']) ? $settings['image_spacing_left'] : '20';
 		$image_upload 	= isset($settings['image_upload']) ? $settings['image_upload'] : array();
-		$text_image_bg 	= isset($settings['text_image_bg']) ? $settings['text_image_bg'] : '#ffffff';
+		$text_image_bg 	= isset($settings['text_image_bgs']) ? $settings['text_image_bgs'] : '#ffffff';
 		$text_image_opacity_distance 	= isset($settings['text_image_opacity_distance']) ? $settings['text_image_opacity_distance'] : '#ffffff';
 		$text_image_selector 	= isset($settings["text_image_selector"]) ? $settings["text_image_selector"] : '';
 		$img_url 		= $image_upload['url'];
@@ -278,11 +278,12 @@ class WPPB_Addon_Text_Image_Block {
 		var image_title = data.image_title??"";
 		var text_image_opacity_distance = data.text_image_opacity_distance??"20";
 		var text_image_selector = data.text_image_selector ? data.text_image_selector : "h3";
+		var text_image_bg = data.text_image_bgs? data.text_image_bgs.colorColor : "#fff";
 		#>
 		<# if(data.text){ #>
 			<div class="wppb-image-text-block-addon">
 				<# if(image_position=="left" && image_upload) { #>
-					<div class="wppb-image-block-left" style="background-image: linear-gradient(to left, {{data.text_image_bg.colorColor}} 0%, rgba(0,0,0,0) {{text_image_opacity_distance}}px,  rgba(0,0,0,0) 100%), url({{image_upload.url}})"></div>
+					<div class="wppb-image-block-left" style="background-image: linear-gradient(to left, {{text_image_bg}} 0%, rgba(0,0,0,0) {{text_image_opacity_distance}}px,  rgba(0,0,0,0) 100%), url({{image_upload.url}})"></div>
 				<# } #>
 
 				<# if(data.image_title || data.text) { #>
@@ -303,7 +304,7 @@ class WPPB_Addon_Text_Image_Block {
 					</div>
 				<# } #>
 				<# if(image_position=="right" && image_upload) { #>
-					<div class="wppb-image-block-right" style="background-image: linear-gradient(to right, {{data.text_image_bg.colorColor}} 0%, rgba(0,0,0,0) {{text_image_opacity_distance}}px,  rgba(0,0,0,0) 100%), url({{image_upload.url}})"></div>
+					<div class="wppb-image-block-right" style="background-image: linear-gradient(to right, {{text_image_bg}} 0%, rgba(0,0,0,0) {{text_image_opacity_distance}}px,  rgba(0,0,0,0) 100%), url({{image_upload.url}})"></div>
 				<# } #>
 			</div>
 		<# } #> ';
