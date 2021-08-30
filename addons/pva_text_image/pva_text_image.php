@@ -19,22 +19,28 @@ class WPPB_Addon_Text_Image_Block {
 	public function get_settings() {
 
 		$settings = array(
+			'image_upload' => array(
+				'type' => 'media',
+				'title' => __('Upload image', 'wp-pagebuilder'),
+				'std' => array('url' => WPPB_DIR_URL . 'assets/img/placeholder/wppb-medium.jpg'),
+			),
 			'image_title' => array(
 				'type' => 'text',
 				'title' => __('Image Title', 'wp-pagebuilder'),
 				'std' => 'Image title',
 			),
-			'title_padding' => array(
-				'type' => 'dimension',
-				'title' => 'Title Padding',
-				'unit' => array('px', 'em', '%'),
-				'responsive' => true,
-				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title { padding: {{data.title_padding}}; }',
-			),
 			'text' => array(
 				'type' => 'editor',
 				'title' => __('Content', 'wp-pagebuilder'),
 				'std' => 'Integer adipiscing erat eget risus sollicitudin pellentesque et non erat. Maecenas nibh dolor, malesuada et bibendum a, sagittis accumsan ipsum. Pellentesque ultrices ultrices sapien, nec tincidunt nunc posuere ut. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam scelerisque tristique dolor vitae tincidunt. Aenean quis massa uada mi elementum elementum. Nec sapien convallis vulputate rhoncus vel dui.'
+			),
+			'text_image_title_color' => array(
+				'type' => 'color2',
+				'title' => 'Title Color',
+				'clip' => true,
+				'std' => array('colorType' => 'color', 'clip' => true, 'colorColor' => ''),
+				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title .wppb-tile-image-heading',
+				'tab' => 'style',
 			),
 			'text_color' => array(
 				'type' => 'color2',
@@ -42,6 +48,7 @@ class WPPB_Addon_Text_Image_Block {
 				'clip' => true,
 				'std' => array('colorType' => 'color', 'clip' => true, 'colorColor' => ''),
 				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-content',
+				'tab' => 'style',
 			),
 			'tile_title_bg' => array(
 				'type' => 'color2',
@@ -53,6 +60,15 @@ class WPPB_Addon_Text_Image_Block {
 					'clip' => false
 				),
 				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title',
+				'tab' => 'style',
+			),
+			'title_padding' => array(
+				'type' => 'dimension',
+				'title' => 'Title Padding',
+				'unit' => array('px', 'em', '%'),
+				'responsive' => true,
+				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title { padding: {{data.title_padding}}; }',
+				'tab' => 'style',
 			),
 			'text_padding' => array(
 				'type' => 'dimension',
@@ -60,6 +76,7 @@ class WPPB_Addon_Text_Image_Block {
 				'unit' => array('px', 'em', '%'),
 				'responsive' => true,
 				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-content { padding: {{data.text_padding}}; }',
+				'tab' => 'style',
 			),
 			'text_image_bg' => array(
 				'type' => 'color2',
@@ -71,11 +88,13 @@ class WPPB_Addon_Text_Image_Block {
 					'clip' => true
 				),
 				'selector' => '{{SELECTOR}} .wppb-image-text-block-addon',
+				'tab' => 'style',
 			),
 			'text_image_opacity_distance' => array(
 				'type' => 'number',
 				'title' => __('Image Opacity Distance', 'wp-pagebuilder'),
 				'std' => '20',
+				'tab' => 'style',
 			),
 			'text_image_bg_repeat' => array(
 				'type' => 'select',
@@ -86,6 +105,7 @@ class WPPB_Addon_Text_Image_Block {
 				),
 				'std' => 'no-repeat',
 				'selector' => '{{SELECTOR}} .wppb-image-block-left, {{SELECTOR}} .wppb-image-block-right {background-repeat: {{data.text_image_bg_repeat}}}',
+				'tab' => 'style',
 			),
 			'text_image_bg_size' => array(
 				'type' => 'select',
@@ -96,6 +116,7 @@ class WPPB_Addon_Text_Image_Block {
 				),
 				'std' => 'cover',
 				'selector' => '{{SELECTOR}} .wppb-image-block-left, {{SELECTOR}} .wppb-image-block-right {background-size: {{data.text_image_bg_size}}}',
+				'tab' => 'style',
 			),
 			'text_image_bg_position' => array(
 				'type' => 'select',
@@ -109,6 +130,7 @@ class WPPB_Addon_Text_Image_Block {
 				),
 				'std' => 'center',
 				'selector' => '{{SELECTOR}} .wppb-image-block-left, {{SELECTOR}} .wppb-image-block-right {background-position: {{data.text_image_bg_position}}}',
+				'tab' => 'style',
 			),
 			'text_image_selector' => array(
 				'type' => 'select',
@@ -123,18 +145,7 @@ class WPPB_Addon_Text_Image_Block {
 					'div' => 'div',
 				),
 				'std' => 'h3',
-			),
-			'text_image_title_color' => array(
-				'type' => 'color2',
-				'title' => 'Title Color',
-				'clip' => true,
-				'std' => array('colorType' => 'color', 'clip' => true, 'colorColor' => ''),
-				'selector' => '{{SELECTOR}} .wppb-addon-tile-card-title .wppb-tile-image-heading',
-			),
-			'image_upload' => array(
-				'type' => 'media',
-				'title' => __('Upload image', 'wp-pagebuilder'),
-				'std' => array('url' => WPPB_DIR_URL . 'assets/img/placeholder/wppb-medium.jpg'),
+				'tab' => 'style',
 			),
 			'image_position' => array(
 				'type' => 'select',
@@ -144,20 +155,23 @@ class WPPB_Addon_Text_Image_Block {
 					'right' => 'Right',
 				),
 				'std' => 'right',
+				'tab' => 'style',
 			),
 			'image_spacing_right' => array(
 				'type' => 'number',
 				'title' => __('Image right space', 'wp-pagebuilder'),
 				'std' => '20',
 				'depends' => array(array('image_position', '=', 'left')),
-				'selector' => '{{SELECTOR}} .wppb-image-block-left { padding-right: {{data.image_spacing_right}}px; }'
+				'selector' => '{{SELECTOR}} .wppb-image-block-left { padding-right: {{data.image_spacing_right}}px; }',
+				'tab' => 'style',
 			),
 			'image_spacing_left' => array(
 				'type' => 'number',
 				'title' => __('Image left space', 'wp-pagebuilder'),
 				'std' => '20',
 				'depends' => array(array('image_position', '=', 'right')),
-				'selector' => '{{SELECTOR}} .wppb-image-block-right { padding-left: {{data.image_spacing_left}}px; }'
+				'selector' => '{{SELECTOR}} .wppb-image-block-right { padding-left: {{data.image_spacing_left}}px; }',
+				'tab' => 'style',
 			),
 
 			//style
@@ -165,7 +179,8 @@ class WPPB_Addon_Text_Image_Block {
 				'type' => 'color',
 				'title' => __('Content color', 'wp-pagebuilder'),
 				'tab' => 'style',
-				'selector' => '{{SELECTOR}} .wppb-text-block-content { color: {{data.color}}; }'
+				'selector' => '{{SELECTOR}} .wppb-text-block-content { color: {{data.color}}; }',
+				'tab' => 'style',
 			),
 			'text_fontstyle' => array(
 				'type' => 'typography',
@@ -197,6 +212,7 @@ class WPPB_Addon_Text_Image_Block {
 				'selector' => '{{SELECTOR}} .wppb-text-block-drop:first-letter',
 				'tab' => 'style',
 				'depends' => array(array('drop_cap', '=', '1')),
+				'tab' => 'style',
 			),
 			'drop_padding' => array(
 				'type' => 'dimension',
@@ -206,6 +222,7 @@ class WPPB_Addon_Text_Image_Block {
 				'tab' => 'style',
 				'selector' => '{{SELECTOR}} .wppb-text-block-drop:first-letter { padding: {{data.drop_padding}}; }',
 				'depends' => array(array('drop_cap', '=', '1')),
+				'tab' => 'style',
 			),
 		);
 		return $settings;
