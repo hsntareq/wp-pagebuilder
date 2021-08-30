@@ -73,6 +73,15 @@
   }
 }
 
+@media (max-width: 768px) {
+  .wppb-image-text-block-addon,
+  .wppb-text-block-content,
+  .wppb-image-block-left,
+  .wppb-image-block-right {
+    display: block;
+    width: 100%;
+  }
+}
 @media (min-width: 768px) {
   .wppb-video-bg-wrap iframe {
     top: -200px;
