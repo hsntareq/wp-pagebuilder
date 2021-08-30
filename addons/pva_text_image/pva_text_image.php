@@ -100,7 +100,7 @@ class WPPB_Addon_Text_Image_Block {
 			),
 			'image_position' => array(
 				'type' => 'select',
-				'title' => __('Title Tag', 'wp-pagebuilder'),
+				'title' => __('Image position', 'wp-pagebuilder'),
 				'values' => array(
 					'left' => 'Left',
 					'right' => 'Right',
@@ -186,7 +186,7 @@ class WPPB_Addon_Text_Image_Block {
 		$img_url 		= $image_upload['url'];
 
 		$output = '';
-		$output  .= '<div class="wppb-text-block-addon">';
+		$output  .= '<div class="wppb-image-text-block-addon">';
 		if (!empty($image_upload['url']) && $image_position == 'left') {
 			$output .= '<div class="wppb-image-block-left">';
 			$output .= '<img src="' . esc_url($img_url) . '" alt="' . esc_attr($image_title) . '">';
